@@ -184,7 +184,13 @@
                 <h2>Start Your <span class="accent">Masterpiece</span></h2>
                 <p>Book your consultation today and let's create a piece of art that will be cherished for a lifetime.
                 </p>
-                <form id="enquiry-form" class="booking-form" method="POST">
+                <form id="enquiry-form" class="booking-form" method="POST" action="https://api.web3forms.com/submit">
+                    <!-- Web3Forms Access Key - Get yours at https://web3forms.com -->
+                    <input type="hidden" name="access_key" value="17d9ca8c-4fce-45e2-8a77-08cc7145c5e4">
+                    <input type="hidden" name="subject" value="New Tattoo Enquiry - Jungle Ink">
+                    <input type="hidden" name="from_name" value="Jungle Ink Website">
+                    <input type="hidden" name="ccemail" value="jungleinktattoo@gmail.com">
+
                     <div class="form-group">
                         <input type="text" name="name" placeholder="Your Name" required>
                     </div>
