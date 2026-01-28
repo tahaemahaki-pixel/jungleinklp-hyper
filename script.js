@@ -33,36 +33,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(form);
             const action = form.getAttribute('action');
 
-            if (!action || action === '#' || action === '') {
-                // If no backend is set yet, show a helpful message
-                setTimeout(() => {
-                    formStatus.innerText = "Form backend not configured. Please add your Formspree ID to the form action.";
-                    formStatus.style.color = "#ff4d4d";
-                    formStatus.style.marginTop = "1rem";
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                }, 1000);
-                return;
-            }
-
             try {
                 const response = await fetch(action, {
                     method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
+                    body: formData
                 });
 
-                if (response.ok) {
+                const data = await response.json();
+
+                if (data.success) {
                     formStatus.innerText = "Thank you! Your enquiry has been sent. We'll be in touch soon.";
                     formStatus.style.color = "#4CAF50";
                     formStatus.style.marginTop = "1rem";
                     form.reset();
                     btn.innerText = 'Sent!';
+
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                    }, 3000);
                 } else {
-                    const data = await response.json();
-                    formStatus.innerText = data.errors ? data.errors.map(error => error.message).join(", ") : "Oops! There was a problem submitting your form";
+                    formStatus.innerText = data.message || "Oops! There was a problem submitting your form";
                     formStatus.style.color = "#ff4d4d";
                     formStatus.style.marginTop = "1rem";
                     btn.innerText = originalText;
